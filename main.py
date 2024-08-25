@@ -4,21 +4,19 @@ load_dotenv()  # take environment variables from .env.
 
 import streamlit as st
 import os
-import pathlib
-import textwrap
 from PIL import Image
-from config import GOOGLE_API_KEY
+# from config import GOOGLE_API_KEY
 import google.generativeai as genai
 
 
-os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+google_api_key = os.environ["GOOGLE_API_KEY"]
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key=google_api_key)
 
 ## Function to load OpenAI model and get respones
 
 def get_gemini_response(input,image,prompt):
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-1.5-flash')
     response = model.generate_content([input,image[0],prompt])
     return response.text
 
@@ -51,12 +49,12 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image.", use_column_width=True)
 
 
-submit=st.button("Tell me about the image")
+submit=st.button("Submit")
 
 input_prompt = """
-               You are an expert in understanding invoices.
-               You will receive input images as invoices &
-               you will have to answer questions based on the input image
+               You are an expert in understanding Restaurant menu.
+               You will receive input images as Restaurant menu &
+               you will have to answer questions based on the Restaurant menu image
                """
 
 ## If ask button is clicked
